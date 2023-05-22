@@ -93,7 +93,7 @@ const App = () => {
   const [lastAnnouncedDistance, setLastAnnouncedDistance] = useState(null)
   const [finalAnnouncementMade, setFinalAnnouncementMade] = useState(false) // Add a new state to keep track of the next stop
   const [nextStopIndex, setNextStopIndex] = useState(0)
-  const [mode, setMode] = useState('DEMO')
+  const [mode, setMode] = useState('GPS')
 
   const fetchGPSInterval = useRef(null)
 
@@ -177,6 +177,26 @@ const App = () => {
     setDistances(newDistances)
   }, [currentPosition, accumulatedDistances])
 
+  const textToSpeech = async (textInput) => {
+    try {
+      const response = await fetch('http://localhost:5000/tts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: textInput }),
+      })
+
+      if (response.ok) {
+        console.log('Speech played successfully')
+      } else {
+        console.log('Error playing speech')
+      }
+    } catch (error) {
+      console.log('Error:', error)
+    }
+  }
+
   // Add this to your useEffect that calculates distances
   useEffect(() => {
     if (accumulatedDistances.length === 0) return
@@ -211,17 +231,19 @@ const App = () => {
         (route === 'CtoA' && nextStopIndex === 0)
       ) {
         if (!finalAnnouncementMade) {
-          const utterance = new SpeechSynthesisUtterance(
+          // const utterance = new SpeechSynthesisUtterance(
+          //   `We have arrived at the final destination, bus stop ${busStops[nextStopIndex].name}`
+          // )
+          // window.speechSynthesis.speak(utterance)
+          textToSpeech(
             `We have arrived at the final destination, bus stop ${busStops[nextStopIndex].name}`
           )
-          window.speechSynthesis.speak(utterance)
           setFinalAnnouncementMade(true)
         }
       } else {
-        const utterance = new SpeechSynthesisUtterance(
+        textToSpeech(
           `We have arrived at bus stop ${busStops[nextStopIndex].name}`
         )
-        window.speechSynthesis.speak(utterance)
       }
       setLastAnnouncedDistance(30)
       setBusStopIndex(nextStopIndex)
@@ -231,10 +253,9 @@ const App = () => {
       lastAnnouncedDistance !== 100
     ) {
       if (!finalAnnouncementMade) {
-        const utterance = new SpeechSynthesisUtterance(
+        textToSpeech(
           `In 100 meters, we'll reach bus stop ${busStops[nextStopIndex].name}`
         )
-        window.speechSynthesis.speak(utterance)
         setLastAnnouncedDistance(100)
       }
     }
@@ -332,7 +353,7 @@ const App = () => {
       <button
         style={{
           position: 'absolute',
-          right: '10px',
+          right: '30px',
           top: '10px',
           zIndex: 9999,
         }}
@@ -395,7 +416,16 @@ const App = () => {
           })}
           {withinRange &&
           (busStopIndex === 0 || busStopIndex === busStops.length - 1) ? (
-            <button onClick={handleRouteClick}>
+            <button
+              style={{
+                position: 'absolute',
+                right: '30px',
+                top: '70px',
+                zIndex: 9999,
+                fontSize: '2rem',
+              }}
+              onClick={handleRouteClick}
+            >
               {route === 'AtoC'
                 ? 'Change route to C to A'
                 : 'Change route to A to C'}
