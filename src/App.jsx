@@ -126,7 +126,11 @@ const App = () => {
       const data = await response.json()
       console.log(data)
       try {
-        setCurrentPosition([data.latitude, data.longitude])
+        if (data.latitude !== null) {
+          setCurrentPosition([data.latitude, data.longitude])
+        } else {
+          console.log("Not reading data, it's null")
+        }
       } catch (err) {
         console.log("Can't get GPS data")
       }
