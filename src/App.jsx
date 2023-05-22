@@ -3,6 +3,16 @@ import busLogo from './assets/bus.png'
 import busA from './assets/a.png'
 import busB from './assets/b.png'
 import busC from './assets/c.png'
+
+import hundredA from './assets/100A.mp3'
+import hundredB from './assets/100B.mp3'
+import hundredC from './assets/100C.mp3'
+import arriveA from './assets/arriveA.mp3'
+import arriveB from './assets/arriveB.mp3'
+import arriveC from './assets/arriveC.mp3'
+import finalA from './assets/finalA.mp3'
+import finalC from './assets/finalC.mp3'
+
 import React, { useEffect, useState, useRef } from 'react'
 import {
   MapContainer,
@@ -13,6 +23,11 @@ import {
   Polyline,
 } from 'react-leaflet'
 import L from 'leaflet'
+
+//AUDIO FILES
+const playSound = (audioFile) => {
+  new Audio(audioFile).play()
+}
 
 function interpolate(pointA, pointB, fraction) {
   return [
@@ -104,7 +119,11 @@ const App = () => {
       const response = await fetch(`http://${BASE_URL}:5000/gpsdata`) // replace with your server url
       const data = await response.json()
       console.log(data)
-      setCurrentPosition([data.lat, data.lng])
+      try {
+        setCurrentPosition([data.latitude, data.longitude])
+      } catch (err) {
+        console.log("Can't get GPS data")
+      }
     } catch (error) {
       console.error('Failed to fetch GPS data:', error)
     }
@@ -237,15 +256,21 @@ const App = () => {
           //   `We have arrived at the final destination, bus stop ${busStops[nextStopIndex].name}`
           // )
           // window.speechSynthesis.speak(utterance)
-          textToSpeech(
-            `We have arrived at the final destination, bus stop ${busStops[nextStopIndex].name}`
-          )
+          if (busStops[nextStopIndex].name === 'A') {
+            playSound(finalA)
+          } else if (busStops[nextStopIndex].name === 'C') {
+            playSound(finalC)
+          }
           setFinalAnnouncementMade(true)
         }
       } else {
-        textToSpeech(
-          `We have arrived at bus stop ${busStops[nextStopIndex].name}`
-        )
+        if (busStops[nextStopIndex].name === 'A') {
+          playSound(arriveA)
+        } else if (busStops[nextStopIndex].name === 'B') {
+          playSound(arriveB)
+        } else if (busStops[nextStopIndex].name === 'C') {
+          playSound(arriveC)
+        }
       }
       setLastAnnouncedDistance(30)
       setBusStopIndex(nextStopIndex)
@@ -255,9 +280,13 @@ const App = () => {
       lastAnnouncedDistance !== 100
     ) {
       if (!finalAnnouncementMade) {
-        textToSpeech(
-          `In 100 meters, we'll reach bus stop ${busStops[nextStopIndex].name}`
-        )
+        if (busStops[nextStopIndex].name === 'A') {
+          playSound(hundredA)
+        } else if (busStops[nextStopIndex].name === 'B') {
+          playSound(hundredB)
+        } else if (busStops[nextStopIndex].name === 'C') {
+          playSound(hundredC)
+        }
         setLastAnnouncedDistance(100)
       }
     }
