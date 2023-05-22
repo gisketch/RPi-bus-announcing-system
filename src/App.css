@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+}
+
+.testContainer {
+  flex: 1;
+  text-align: center;
+  font-size: 1rem;
+}
+
+.bottomContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.buttonsStart {
+  gap: 2rem;
+  padding: 2rem;
+  font-size: 1.5rem;
+  justify-content: center;
+}
+
+.distanceText {
+  display: flex;
+  width: 100%;
+}
+
+.distanceText > p {
+  flex: 1;
+  text-align: center;
+  width: 100%;
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.bottomContainer > div {
+  flex: 1;
+}
