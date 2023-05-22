@@ -373,7 +373,7 @@ const App = () => {
     <div className="container">
       <MapContainer
         center={centerPosition}
-        zoom={15}
+        zoom={25}
         scrollWheelZoom={true}
         style={{ height: '75vh', width: '100vw' }}
       >
