@@ -116,7 +116,13 @@ const App = () => {
 
   const fetchGPSData = async () => {
     try {
-      const response = await fetch(`http://${BASE_URL}:5000/gpsdata`) // replace with your server url
+      const response = await fetch(`http://${BASE_URL}:5000/gpsdata`, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       const data = await response.json()
       console.log(data)
       try {
@@ -367,7 +373,7 @@ const App = () => {
     <div className="container">
       <MapContainer
         center={centerPosition}
-        zoom={25}
+        zoom={15}
         scrollWheelZoom={true}
         style={{ height: '75vh', width: '100vw' }}
       >
