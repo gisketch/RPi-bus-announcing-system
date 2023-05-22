@@ -57,6 +57,8 @@ function pointToLineSegmentDistance(point, lineStart, lineEnd) {
   ])
 }
 
+const BASE_URL = 'localhost'
+
 const App = () => {
   const busStops = [
     { name: 'A', coords: [7.10488, 124.83347] },
@@ -99,7 +101,7 @@ const App = () => {
 
   const fetchGPSData = async () => {
     try {
-      const response = await fetch('http://localhost:5000/gps') // replace with your server url
+      const response = await fetch(`http://${BASE_URL}:5000/gpsdata`) // replace with your server url
       const data = await response.json()
       console.log(data)
       setCurrentPosition([data.lat, data.lng])
@@ -179,7 +181,7 @@ const App = () => {
 
   const textToSpeech = async (textInput) => {
     try {
-      const response = await fetch('http://localhost:5000/tts', {
+      const response = await fetch(`http://${BASE_URL}:5000/tts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
