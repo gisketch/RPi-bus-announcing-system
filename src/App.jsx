@@ -58,20 +58,6 @@ function haversineDistance([lat1, lon1], [lat2, lon2]) {
   return d * 1000 // meters
 }
 
-function pointToLineSegmentDistance(point, lineStart, lineEnd) {
-  const l2 = haversineDistance(lineStart, lineEnd)
-  if (l2 === 0) return haversineDistance(point, lineStart)
-  let t =
-    ((point[0] - lineStart[0]) * (lineEnd[0] - lineStart[0]) +
-      (point[1] - lineStart[1]) * (lineEnd[1] - lineStart[1])) /
-    l2
-  t = Math.max(0, Math.min(1, t))
-  return haversineDistance(point, [
-    lineStart[0] + t * (lineEnd[0] - lineStart[0]),
-    lineStart[1] + t * (lineEnd[1] - lineStart[1]),
-  ])
-}
-
 const BASE_URL = 'localhost'
 
 const App = () => {
@@ -207,26 +193,6 @@ const App = () => {
 
     setDistances(newDistances)
   }, [currentPosition, accumulatedDistances])
-
-  const textToSpeech = async (textInput) => {
-    try {
-      const response = await fetch(`http://${BASE_URL}:5000/tts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ text: textInput }),
-      })
-
-      if (response.ok) {
-        console.log('Speech played successfully')
-      } else {
-        console.log('Error playing speech')
-      }
-    } catch (error) {
-      console.log('Error:', error)
-    }
-  }
 
   // Add this to your useEffect that calculates distances
   useEffect(() => {
@@ -402,6 +368,24 @@ const App = () => {
       >
         Switch to {mode === 'DEMO' ? 'GPS' : 'DEMO'} mode
       </button>
+
+      <div
+        style={{
+          position: 'absolute',
+          left: '60px',
+          top: '10px',
+          zIndex: 9999,
+          fontSize: '1.5rem',
+          background: 'black',
+          padding: '1rem',
+          borderRadius: '1rem',
+        }}
+      >
+        Current position: <br></br>
+        {currentPosition[0]}
+        <br></br>
+        {currentPosition[1]}
+      </div>
       {!routeStarted ? (
         <div className="bottomContainer buttonsStart">
           <button onClick={() => startRoute('AtoC')}>Start route A to C</button>
@@ -409,9 +393,6 @@ const App = () => {
         </div>
       ) : (
         <div className="bottomContainer">
-          {/* <div>
-        Current position: {currentPosition[0]}, {currentPosition[1]}
-      </div> */}
           {mode === 'DEMO' && (
             <div className="testContainer">
               <input
