@@ -385,15 +385,9 @@ const App = () => {
         }}
       >
         Current position: <br></br>
-        {isLocNull && mode === 'GPS' ? (
-          'GPS data reading null'
-        ) : (
-          <>
-            {currentPosition[0]}
-            <br></br>
-            {currentPosition[1]}
-          </>
-        )}
+        {currentPosition[0]}
+        <br></br>
+        {currentPosition[1]}
       </div>
       {!routeStarted ? (
         <div className="bottomContainer buttonsStart">
