@@ -82,6 +82,7 @@ const App = () => {
   const centerPosition = [7.1059, 124.83141]
 
   const [currentPosition, setCurrentPosition] = useState(routePath[0])
+  const [isLocNull, setIsLocNull] = useState(true)
   // const [currentPosition, setCurrentPosition] = useState(routePath[0])
   const [sliderValue, setSliderValue] = useState(0)
   const [distances, setDistances] = useState(busStops.map(() => 0))
@@ -113,9 +114,11 @@ const App = () => {
       console.log(data)
       try {
         if (data.latitude !== null) {
+          setIsLocNull(false)
           setCurrentPosition([data.latitude, data.longitude])
         } else {
           console.log("Not reading data, it's null")
+          setIsLocNull(true)
         }
       } catch (err) {
         console.log("Can't get GPS data")
@@ -382,9 +385,15 @@ const App = () => {
         }}
       >
         Current position: <br></br>
-        {currentPosition[0]}
-        <br></br>
-        {currentPosition[1]}
+        {isLocNull && mode === 'GPS' ? (
+          'GPS data reading null'
+        ) : (
+          <>
+            {currentPosition[0]}
+            <br></br>
+            {currentPosition[1]}
+          </>
+        )}
       </div>
       {!routeStarted ? (
         <div className="bottomContainer buttonsStart">
