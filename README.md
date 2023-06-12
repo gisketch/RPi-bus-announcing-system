@@ -40,6 +40,13 @@ To set up and run the Bus Arrival Announcement System, follow these steps:
 
 5. Access the system by opening the provided URL in a web browser.
 
+## Screenshots
+
+![image](https://github.com/gisketch/RPi-bus-announcing-system/assets/78424395/b0e9a5f7-527c-4bc7-bab6-697591b176d4)
+
+![image](https://github.com/gisketch/RPi-bus-announcing-system/assets/78424395/4b27b8fa-d441-463a-95a6-e411ad6ccd83)
+
+
 ## Contributing
 
 Contributions to the Bus Arrival Announcement System are welcome! If you find any issues or have suggestions for improvement, please feel free to submit a pull request or open an issue in the repository.
