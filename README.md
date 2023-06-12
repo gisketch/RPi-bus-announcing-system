@@ -4,7 +4,7 @@ This repository contains the source code for the Bus Arrival Announcement System
 
 ## Overview
 
-The Bus Arrival Announcement System incorporates both visual and audio outputs, along with GPS tracking, to improve the accessibility and efficiency of bus transportation. [Noreen Culiao] conducted the research and wrote the associated paper, while [I] served as the programmer of the device. The system utilizes a Raspberry Pi as the central processing unit and includes the following key components:
+The Bus Arrival Announcement System incorporates both visual and audio outputs, along with GPS tracking, to improve the accessibility and efficiency of bus transportation. Noreen Culiao conducted the research and wrote the associated paper, while I served as the programmer of the device. The system utilizes a Raspberry Pi as the central processing unit and includes the following key components:
 
 - 🖥️ **Raspberry Pi**: Serves as the core component of the bus tracking device, providing computational power for data processing.
 - 🛰️ **NEO6M GPS module**: Interfaces with the Raspberry Pi to obtain accurate GPS data for real-time tracking of the bus.
